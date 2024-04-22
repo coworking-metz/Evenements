@@ -16,6 +16,10 @@ function getParticipations($id_evenement)
 {
     $criteria = ['id_evenement' => $id_evenement];
     $liste =  supabase()->read('participations', $criteria);
+    usort($liste, function($a, $b) {
+        $priority = ['ok' => 1, 'maybe' => 2, 'ko' => 3];
+        return $priority[$a['participe']] <=> $priority[$b['participe']];
+    });
     return $liste;
 }
 

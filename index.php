@@ -146,7 +146,7 @@ if ($setNb) {
                         </label>
                         <label class="if-set-nb">
                             <b>Combien de personnes vous accompagnent ?</b>
-                            <input type="number" name="nb" value="<?= max(1,$participation['nb'] - 1) ?>" />
+                            <input type="number" name="nb" value="<?= max(0,$participation['nb'] - 1) ?>" />
                         </label>
                         <?php if ($participe != 'ok') { ?>
                             <button type="submit" name="participe" value="ok">Je participe</button>

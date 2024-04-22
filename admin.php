@@ -138,7 +138,6 @@ if ($evenement = getEvenement($id)) {
                     <form method="post">
                         <input type="hidden" name="form[id]" required value="<?= htmlspecialchars($evenement['id'] ?? ''); ?>">
                         <h1><?= htmlspecialchars($titre); ?>
-                            <br><small><?= participationEvenement($evenement) ?></small>
                         </h1>
 
                         <div>
@@ -209,6 +208,8 @@ if ($evenement = getEvenement($id)) {
                 <?php if ($evenement['id'] ?? false) { ?>
                     <article>
                         <b>Participations</b>
+                        <br><small><?= participationEvenement($evenement) ?></small>
+                        <br>
                         <div class="participations">
                             <?php if ($participations) { ?>
                                 <?php foreach ($participations as $participation) { ?>
@@ -216,7 +217,7 @@ if ($evenement = getEvenement($id)) {
                                         <?= $participation['participe'] == 'ok' ? '👍' : '' ?>
                                         <?= $participation['participe'] == 'ko' ? '🚫' : '' ?>
                                         <?= $participation['participe'] == 'maybe' ? '🤔' : '' ?>
-                                        <b><?= strstr($participation['email'], '@') ? $participation['email'] : '<i>Anonyme</i>'; ?></b> <?= $participation['nb'] > 1 ? ' + ' . $participation['nb'] . ' accompagnateur(s)' : ''; ?>
+                                        <b><?= strstr($participation['email'], '@') ? $participation['email'] : '<i>Anonyme</i>'; ?></b> <?= $participation['nb'] > 1 ? ' + ' . ($participation['nb']-1) . ' accompagnateur(s)' : ''; ?>
                                     </div>
                                 <?php } ?>
                             <?php } else { ?>
