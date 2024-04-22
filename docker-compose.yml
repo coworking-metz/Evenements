@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php:8.0-apache
+    ports:
+      - "7980:80"
+    volumes:
+      - .:/var/www/html
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
