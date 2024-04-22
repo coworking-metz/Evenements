@@ -69,6 +69,7 @@ function  upsertEvenement($data)
     $data['ko'] = $data['ko'] ?? 0;
     $data['maybe'] = $data['maybe'] ?? 0;
     unset($data['id']);
+    $data['withdate']= !!$data['withdate'];
     $response = supabase()->upsert('evenements', $data, $criteria);
     if (!empty($response['id'])) {
         return $response;
@@ -98,7 +99,7 @@ function  upsertParticipation($id_evenement, $data)
 function hashEvenement($data)
 
 {
-    return md5($data['evenement'] . $data['date'] . $data['heure']);
+    return md5($data['evenement'] . $data['date'] . $data['heure'] . $data['id']);
 }
 
 function texteParticipation($participation)

@@ -7,7 +7,8 @@ function noCacheHeaders()
     header('Cache-Control: no-store, max-age=30, s-maxage=0');
     header('Expires: 0');
 }
-function hexToRgb($hexColor) {
+function hexToRgb($hexColor)
+{
     // Remove '#' if it exists
     $hexColor = ltrim($hexColor, '#');
 
@@ -39,9 +40,13 @@ function participationEvenement($evenement, $details = false)
 function descriptionEvenement($evenement)
 {
 
-    $description = $evenement['evenement'] . ' organisé le ' . formatDateToFrench($evenement['date']);
-    if ($evenement['heure']) {
-        $description .= ' à ' . formatTimeToHHMM($evenement['heure']);
+    $description = $evenement['evenement'];
+
+    if ($evenement['withdate']) {
+        $description .= ' organisé le ' . formatDateToFrench($evenement['date']);
+        if ($evenement['heure']) {
+            $description .= ' à ' . formatTimeToHHMM($evenement['heure']);
+        }
     }
     $description = htmlspecialchars($description);
     return $description;
@@ -63,8 +68,7 @@ function urlEvenement($evenement)
     if (is_numeric($evenement)) {
         $evenement = getEvenement($evenement);
     }
-    $heure = substr($evenement['heure'], 0, 5);
-    return baseUrl() . slugify($evenement['evenement'] . '-' . $evenement['date'] . '-' . $heure) . '/' . $evenement['id'];
+    return baseUrl() . slugify($evenement['evenement']) . '/' . $evenement['id'];
 }
 
 function baseUrl()
@@ -114,8 +118,10 @@ function formatDateToFrench($date)
 {
 
     $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-    $months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-               'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+    $months = [
+        'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+        'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+    ];
 
     $dateTime = new DateTime($date);
     $dayName = $days[$dateTime->format('w')];
@@ -123,7 +129,6 @@ function formatDateToFrench($date)
     $monthName = $months[$dateTime->format('n') - 1];
 
     return "$dayName $dayNumber $monthName";
-    
 }
 
 

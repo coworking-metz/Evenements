@@ -27,8 +27,30 @@ if ($evenement = getEvenement($id)) {
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($titre); ?> - Evenements</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+    <script type="text/javascript" defer async src="https://cloudflare.coworking-metz.fr/cf.js"></script>
     <!-- Add this script at the end of your body or in the head -->
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.querySelector('input[name="form[withdate]"]');
+            const dateField = document.querySelector('.date');
+            // Function to toggle visibility
+            function toggleFields() {
+                const isChecked = checkbox.checked;
+                if(isChecked) {
+                    dateField.classList.remove('hidden');
+                } else {
+                    dateField.classList.add('hidden');
+                }
+            }
+
+            // Initial check in case the checkbox is pre-checked on page load
+            toggleFields();
+
+            // Event listener for changes on the checkbox
+            checkbox.addEventListener('change', toggleFields);
+        });
+
+
         document.addEventListener('DOMContentLoaded', function() {
             const imageInput = document.querySelector('#image');
             const imageContainer = document.getElementById('imageContainer');
@@ -63,6 +85,10 @@ if ($evenement = getEvenement($id)) {
         });
     </script>
     <style>
+        .hidden {
+            display: none !important;
+        }
+
         #imageContainer {
             width: 150px;
             height: 150px;
@@ -124,23 +150,34 @@ if ($evenement = getEvenement($id)) {
                             <textarea name="form[description]"><?= htmlspecialchars($evenement['description'] ?? ''); ?></textarea>
                             <small>Facultatif</small>
                         </div>
+                        <br><hr>
+                        <h3>Date et lieu</h3>
                         <div>
                             <label for="lieu">Lieu</label>
                             <input type="text" name="form[lieu]" value="<?= htmlspecialchars($evenement['lieu'] ?? ''); ?>">
                             <small>Facultatif</small>
                         </div>
-
                         <div>
-                            <label for="date">Date</label>
-                            <input type="date" name="form[date]" required value="<?= htmlspecialchars($evenement['date'] ?? ''); ?>">
+                            <label for="withdate">
+                                <input type="checkbox" name="form[withdate]" id="withdate" value="1" <?= ($evenement['withdate'] ?? '') ? 'checked' : ''; ?>>
+                                Définir une date pour l'évènement
+                            </label>
                         </div>
 
-                        <div>
-                            <label for="heure">Heure</label>
-                            <input type="time" name="form[heure]" value="<?= htmlspecialchars($evenement['heure'] ?? ''); ?>">
-                            <small>Facultatif</small>
-                        </div>
+                        <div class="date">
+                            <div>
+                                <label for="date">Date</label>
+                                <input type="date" name="form[date]" value="<?= htmlspecialchars($evenement['date'] ?? ''); ?>">
+                            </div>
 
+                            <div>
+                                <label for="heure">Heure</label>
+                                <input type="time" name="form[heure]" value="<?= htmlspecialchars($evenement['heure'] ?? ''); ?>">
+                                <small>Facultatif</small>
+                            </div>
+                        </div>
+                        <br><hr>
+                        <h3>Personnalisation</h3>
                         <div>
                             <label for="couleur">couleur</label>
                             <input type="text" name="form[couleur]" value="<?= htmlspecialchars($evenement['couleur'] ?? ''); ?>" oninput="this.closest('div').querySelector('[type=color]').value = this.value">
@@ -151,7 +188,7 @@ if ($evenement = getEvenement($id)) {
                         <div>
                             <label for="logo">Logo</label>
                             <select name="form[logo]"><?php foreach (logos() as $logo) { ?>
-                                    <option <?= $logo['url'] == ($evenement['logo']??false) ? 'selected' : ''; ?> value="<?= $logo['url']; ?>"><?= $logo['nom']; ?></option>
+                                    <option <?= $logo['url'] == ($evenement['logo'] ?? false) ? 'selected' : ''; ?> value="<?= $logo['url']; ?>"><?= $logo['nom']; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -190,7 +227,7 @@ if ($evenement = getEvenement($id)) {
                     <article>
                         <div>
                             <label>Url à partager pour que les gens indiquent leur participation
-                            <a target="_blank" href="<?= urlEvenement($evenement); ?>">Voir la page de l'évènement</a></label>
+                                <a target="_blank" href="<?= urlEvenement($evenement); ?>">Voir la page de l'évènement</a></label>
                             <code><?= urlEvenement($evenement); ?></code>
                             <b>Liens rapides :</b>
                             <a href="<?= urlEvenement($evenement); ?>?p=ok&email={{contact.EMAIL}}">oui</a> |

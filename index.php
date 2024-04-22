@@ -47,8 +47,8 @@ if ($setNb) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><?= $titre ?></title>
     <meta name="description" content="Evenement <?= $description ?>" />
-    <base href="/events/">
-
+    <base href="/">
+    <script type="text/javascript" defer async src="https://cloudflare.coworking-metz.fr/cf.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="https://coworking-metz.fr/favicon/apple-touch-icon.png?v=2">
     <link rel="icon" type="image/png" sizes="32x32" href="https://coworking-metz.fr/favicon/favicon-32x32.png?v=2">
@@ -113,11 +113,13 @@ if ($setNb) {
                 <hgroup>
                     <h1><?= htmlspecialchars($evenement['evenement']); ?></h1>
                     <p style="font-size:smaller"><?= $evenement['description']; ?></p>
+                    <?php if ($evenement['withdate']) { ?>
                     <p>Le <?= formatDateToFrench($evenement['date']); ?>
                         <?php if ($evenement['heure']) { ?>à <?= formatTimeToHHMM($evenement['heure']); ?><?php } ?>
                         <?php if ($evenement['lieu']) { ?><br>Lieu: <?= htmlspecialchars($evenement['lieu']); ?><?php } ?>
                             <br><small><b><?= participationEvenement($evenement) ?></b></small>
                     </p>
+                    <?php } ?>
                 </hgroup>
                 <?php if (!$changer) { ?>
                     <h2><b><?= texteParticipation($participation); ?></b></h2>
