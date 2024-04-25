@@ -14,7 +14,9 @@ if ($id = $_POST['id'] ?? false) {
 }
 
 $id = $_GET['id'] ?? false;
-if(!$id) rediriger('https://coworking-metz.fr');
+if(!$id) {
+    loginRedirect();
+}
 $setNb = isset($_GET['set-nb']);
 $changer = isset($_GET['changer']);
 $email = $_GET['email'] ?? '';

@@ -1,12 +1,14 @@
 <?php
+// define('WP_USE_THEMES', false); // We don't want to use themes.
+// require('../www/wp-load.php');
 
 include __DIR__ . '/secrets.inc.php';
 include __DIR__ . '/utils.inc.php';
 include __DIR__ . '/supabase.inc.php';
-if(isset($_GET['debug'])) {
+// if(isset($_GET['debug'])) {
     error_reporting(E_ALL);
 ini_set('display_errors', 'On');
-}
+// }
 noCacheHeaders();
 function logos()
 {

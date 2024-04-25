@@ -2,6 +2,7 @@
 
 include __DIR__ . '/inc/main.inc.php';
 
+
 $form = $_POST['form'] ?? [];
 
 if ($form) {
@@ -36,7 +37,7 @@ if ($evenement = getEvenement($id)) {
             // Function to toggle visibility
             function toggleFields() {
                 const isChecked = checkbox.checked;
-                if(isChecked) {
+                if (isChecked) {
                     dateField.classList.remove('hidden');
                 } else {
                     dateField.classList.add('hidden');
@@ -149,7 +150,8 @@ if ($evenement = getEvenement($id)) {
                             <textarea name="form[description]"><?= htmlspecialchars($evenement['description'] ?? ''); ?></textarea>
                             <small>Facultatif</small>
                         </div>
-                        <br><hr>
+                        <br>
+                        <hr>
                         <h3>Date et lieu</h3>
                         <div>
                             <label for="lieu">Lieu</label>
@@ -175,7 +177,8 @@ if ($evenement = getEvenement($id)) {
                                 <small>Facultatif</small>
                             </div>
                         </div>
-                        <br><hr>
+                        <br>
+                        <hr>
                         <h3>Personnalisation</h3>
                         <div>
                             <label for="couleur">couleur</label>
@@ -199,7 +202,13 @@ if ($evenement = getEvenement($id)) {
                             <div id="imageContainer"></div>
                             <input type="hidden" name="form[image_url]" value="<?= htmlspecialchars($evenement['image_url'] ?? ''); ?>">
                         </div>
-                        <BR>
+                        <br><hr>
+                        <div>
+                            <label for="calendrier">
+                                <input type="checkbox" name="form[calendrier]" id="calendrier" value="1" <?= ($evenement['calendrier'] ?? '') ? 'checked' : ''; ?>>
+                                Faire figurer dans le calendrier du coworking
+                            </label>
+                        </div> <BR>
                         <button type="submit">Enregistrer</button>
                     </form>
                 </article>
@@ -217,7 +226,7 @@ if ($evenement = getEvenement($id)) {
                                         <?= $participation['participe'] == 'ok' ? '👍' : '' ?>
                                         <?= $participation['participe'] == 'ko' ? '🚫' : '' ?>
                                         <?= $participation['participe'] == 'maybe' ? '🤔' : '' ?>
-                                        <b><?= strstr($participation['email'], '@') ? $participation['email'] : '<i>Anonyme</i>'; ?></b> <?= $participation['nb'] > 1 ? ' + ' . ($participation['nb']-1) . ' accompagnateur(s)' : ''; ?>
+                                        <b><?= strstr($participation['email'], '@') ? $participation['email'] : '<i>Anonyme</i>'; ?></b> <?= $participation['nb'] > 1 ? ' + ' . ($participation['nb'] - 1) . ' accompagnateur(s)' : ''; ?>
                                     </div>
                                 <?php } ?>
                             <?php } else { ?>

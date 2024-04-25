@@ -73,7 +73,13 @@ function  upsertEvenement($data)
     $data['ko'] = $data['ko'] ?? 0;
     $data['maybe'] = $data['maybe'] ?? 0;
     unset($data['id']);
-    $data['withdate']= !!$data['withdate'];
+    $data['withdate']= !!($data['withdate']??false);
+    if($data['withdate']) {
+        if(!$data['heure']) {
+            $data['heure']=null;
+        }
+    }
+    $data['calendrier']= !!($data['calendrier']??false);
     $response = supabase()->upsert('evenements', $data, $criteria);
     if (!empty($response['id'])) {
         return $response;
@@ -83,7 +89,7 @@ function  upsertEvenement($data)
     if ($ret) {
         return $ret;
     } else {
-        me($ret, $response);
+        me($ret, $data, $response);
     }
 }
 function getParticipation($email, $id_evenement)

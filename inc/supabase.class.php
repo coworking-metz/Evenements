@@ -53,7 +53,9 @@ class SupabaseClient
     // Créer une entrée
     public function create($table, $data, $headers = [])
     {
-        return $this->request('POST', '/' . $table, $data, $headers);
+        $response = $this->request('POST', '/' . $table, $data, $headers);
+        if(!empty($response['message']) && !empty($response['code'])) me([$response,$data]);
+        return $response;
     }
 
     // Lire des entrées avec tri par défaut sur 'id' en ordre décroissant
