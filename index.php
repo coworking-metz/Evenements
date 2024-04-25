@@ -48,8 +48,8 @@ if ($setNb) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><?= $titre ?></title>
     <meta name="description" content="Evenement <?= $description ?>" />
-    <base href="/events/">
-
+    <base href="/">
+    <script type="text/javascript" defer async src="https://cloudflare.coworking-metz.fr/cf.js"></script>
 
     <link rel="apple-touch-icon" sizes="180x180" href="https://coworking-metz.fr/favicon/apple-touch-icon.png?v=2">
     <link rel="icon" type="image/png" sizes="32x32" href="https://coworking-metz.fr/favicon/favicon-32x32.png?v=2">
@@ -114,11 +114,13 @@ if ($setNb) {
                 <hgroup>
                     <h1><?= htmlspecialchars($evenement['evenement']); ?></h1>
                     <p style="font-size:smaller"><?= $evenement['description']; ?></p>
+                    <?php if ($evenement['withdate']) { ?>
                     <p>Le <?= formatDateToFrench($evenement['date']); ?>
                         <?php if ($evenement['heure']) { ?>à <?= formatTimeToHHMM($evenement['heure']); ?><?php } ?>
                         <?php if ($evenement['lieu']) { ?><br>Lieu: <?= htmlspecialchars($evenement['lieu']); ?><?php } ?>
                             <br><small><b><?= participationEvenement($evenement) ?></b></small>
                     </p>
+                    <?php } ?>
                 </hgroup>
                 <?php if (!$changer) { ?>
                     <h2><b><?= texteParticipation($participation); ?></b></h2>
@@ -144,7 +146,7 @@ if ($setNb) {
                         </label>
                         <label class="if-set-nb">
                             <b>Combien de personnes vous accompagnent ?</b>
-                            <input type="number" name="nb" value="<?= $participation['nb'] - 1 ?>" />
+                            <input type="number" name="nb" value="<?= max(0,$participation['nb'] - 1) ?>" />
                         </label>
                         <?php if ($participe != 'ok') { ?>
                             <button type="submit" name="participe" value="ok">Je participe</button>

@@ -16,6 +16,10 @@ function getParticipations($id_evenement)
 {
     $criteria = ['id_evenement' => $id_evenement];
     $liste =  supabase()->read('participations', $criteria);
+    usort($liste, function($a, $b) {
+        $priority = ['ok' => 1, 'maybe' => 2, 'ko' => 3];
+        return $priority[$a['participe']] <=> $priority[$b['participe']];
+    });
     return $liste;
 }
 
@@ -69,6 +73,7 @@ function  upsertEvenement($data)
     $data['ko'] = $data['ko'] ?? 0;
     $data['maybe'] = $data['maybe'] ?? 0;
     unset($data['id']);
+    $data['withdate']= !!$data['withdate'];
     $response = supabase()->upsert('evenements', $data, $criteria);
     if (!empty($response['id'])) {
         return $response;
@@ -98,7 +103,7 @@ function  upsertParticipation($id_evenement, $data)
 function hashEvenement($data)
 
 {
-    return md5($data['evenement'] . $data['date'] . $data['heure']);
+    return md5($data['evenement'] . $data['date'] . $data['heure'] . $data['id']);
 }
 
 function texteParticipation($participation)
