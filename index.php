@@ -7,7 +7,7 @@ if ($id = $_POST['id'] ?? false) {
         $email = sha1(time());
     }
     $participe = $_POST['participe'] ?? false;
-    $nb = isset($_POST['nb']) ? $_POST['nb'] + 1 : 1;
+    $nb = isset($_POST['nb']) ? intval($_POST['nb']) + 1 : 1;
 
     $participation = upsertParticipation($id, ['email' => $email, 'participe' => $participe, 'id_evenement' => $id, 'nb' => $nb]);
     rediriger(urlEvenement($id) . '?email=' . urlencode($email));
