@@ -115,7 +115,7 @@ if ($setNb) {
             <div>
                 <hgroup>
                     <h1><?= htmlspecialchars($evenement['evenement']); ?></h1>
-                    <p style="font-size:smaller"><?= $evenement['description']; ?></p>
+                    <p style="font-size:smaller"><?= nl2br($evenement['description']); ?></p>
                     <?php if ($evenement['withdate']) { ?>
                     <p>Le <?= formatDateToFrench($evenement['date']); ?>
                         <?php if ($evenement['heure']) { ?>à <?= formatTimeToHHMM($evenement['heure']); ?><?php } ?>
